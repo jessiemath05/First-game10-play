@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jessie Math - 披薩數學家</title>
+
+  <!-- ✅ 快取連結預覽（請放在 <head> 裡） -->
+  <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+  <!-- ✅ LINE / FB 預覽用 -->
+  <meta property="og:title" content="Jessie Math - 披薩數學家">
+  <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+  <meta property="og:type" content="website">
+
+  <!-- ✅ 預覽圖片（把檔名換成你的主題圖，例如 g5-u10-2.png） -->
+  <meta property="og:image" content="g5-u10-2.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1536">
+  <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+
+  <!-- ✅ 有些平台會參考 -->
+  <link rel="image_src" href="g5-u10-2.png">
+
+  <!-- ✅ Twitter / X（可用同一張圖） -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jessie Math - 披薩數學家">
+  <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+  <meta name="twitter:image" content="g5-u10-2.png">
+
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#e67e22;
+      --secondary:#f1c40f;
+      --bg:#fdf2e9;
+      --ink:#2c3e50;
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color:var(--bg);
+      margin:0;
+      padding:0;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    /* ===== HERO / HEADER ===== */
+    .hero-wrap{
+      width:100%;
+      padding:18px 22px 10px;
+      background:
+        radial-gradient(900px 280px at 25% 30%, rgba(108,92,231,0.10), transparent 60%),
+        radial-gradient(900px 280px at 75% 30%, rgba(241,196,15,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
+    }
+    .hero{
+      width:min(1200px, 100%);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 18px;
+      background:rgba(255,255,255,0.92);
+      border-radius:18px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.10);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:260px;
+    }
+    .brand-badge{
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      border:4px solid var(--secondary);
+      display:grid;
+      place-items:center;
+      background:transparent;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .brand-badge img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:transparent;
+    }
+    .brand-title{
+      font-size:30px;
+      font-weight:800;
+      letter-spacing:0.3px;
+      color:#222;
+      line-height:1;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      color:#333;
+      font-weight:800;
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.10);
+      border-radius:999px;
+      padding:10px 14px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.08);
+      transition:transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .nav a:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 22px rgba(0,0,0,0.10);
+    }
+    .nav a .ico{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:rgba(241,196,15,0.25);
+      color:#8a5a00;
+    }
+    .nav a.active{
+      border:2px solid rgba(108,92,231,0.55);
+      color:#3d2db6;
+      background:rgba(108,92,231,0.06);
+    }
+
+    /* ===== 主內容 ===== */
+    .page{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:18px 20px 18px;
+      flex:1;
+    }
+
+    .container{
+      background:white;
+      padding:2rem;
+      border-radius:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.10);
+      text-align:center;
+      max-width:520px;
+      width:100%;
+    }
+    h2{ margin:0 0 12px; }
+
+    .game-canvas{
+      position:relative;
+      width:300px;
+      height:300px;
+      margin:20px auto;
+      background:#eee;
+      border-radius:50%;
+      border:8px solid #d35400;
+      overflow:hidden;
+    }
+    #slice{
+      position:absolute;
+      width:100%;
+      height:100%;
+      background:var(--secondary);
+      clip-path:polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+      transition:0.2s ease;
+    }
+
+    .controls{ margin-top:18px; }
+    input[type="range"]{ width:100%; margin:15px 0; }
+    input[type="text"]{
+      padding:10px 12px;
+      width:180px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      outline:none;
+      font-size:16px;
+    }
+    input[type="text"]:focus{ border-color:var(--primary); box-shadow:0 0 0 3px rgba(230,126,34,0.15); }
+
+    button{
+      padding:10px 18px;
+      background:var(--primary);
+      color:white;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:16px;
+      margin:6px 6px 0;
+    }
+    button:hover{ background:#d35400; }
+    button:disabled{ opacity:0.5; cursor:not-allowed; }
+
+    .target-box{
+      font-size:1.15rem;
+      font-weight:900;
+      color:var(--ink);
+      margin:12px 0 10px;
+      padding:12px 14px;
+      background:#fcf3cf;
+      border-radius:14px;
+      line-height:1.45;
+    }
+
+    .hud{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:6px 0 8px;
+      color:var(--ink);
+      font-weight:800;
+    }
+    .pill{
+      background:#f7f7fb;
+      border:1px solid rgba(0,0,0,0.06);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:14px;
+      min-width:120px;
+    }
+
+    .feedback{
+      margin-top:14px;
+      font-weight:900;
+      min-height:26px;
+    }
+
+    .rulebox{
+      text-align:left;
+      background:#f7f7fb;
+      border:1px solid rgba(0,0,0,0.06);
+      border-radius:16px;
+      padding:14px 14px;
+      color:var(--ink);
+      line-height:1.6;
+      margin:14px 0 14px;
+    }
+    .rulebox ul{ margin:8px 0 0 18px; padding:0; }
+    .rulebox li{ margin:6px 0; }
+
+    .startbar{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .name-input{
+      width:240px;
+      max-width:100%;
+    }
+
+    .tiny{
+      font-size:12px;
+      color:#666;
+      margin-top:10px;
+    }
+
+    /* ===== 排行榜（第一頁新增） ===== */
+    .leaderboard{
+      text-align:left;
+      background:#ffffff;
+      border:1px solid rgba(0,0,0,0.08);
+      border-radius:16px;
+      padding:14px 14px;
+      margin:14px 0 0;
+      box-shadow:0 8px 18px rgba(0,0,0,0.06);
+    }
+    .leaderboard-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      color:var(--ink);
+      margin-bottom:10px;
+    }
+    .leaderboard-title .lb-ico{
+      width:30px;
+      height:30px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:rgba(230,126,34,0.12);
+      color:var(--primary);
+    }
+    .lb-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .lb-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f7f7fb;
+      border:1px solid rgba(0,0,0,0.05);
+      font-weight:800;
+      color:#333;
+    }
+    .lb-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .lb-rank{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:rgba(241,196,15,0.22);
+      color:#8a5a00;
+      flex:0 0 auto;
+      font-size:14px;
+    }
+    .lb-name{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      max-width:260px;
+    }
+    .lb-score{
+      font-weight:900;
+      color:var(--ink);
+      flex:0 0 auto;
+    }
+    .lb-note{
+      font-size:12px;
+      color:#666;
+      margin-top:10px;
+      line-height:1.45;
+    }
+
+    /* 頁面切換 */
+    #start-screen{ display:block; }
+    #game-screen{ display:none; }
+
+    /* ===== Footer（你指定的樣式） ===== */
+    footer{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:0 20px 22px;
+    }
+    .footer-pill{
+      width:min(1200px, 100%);
+      background:rgba(255,255,255,0.92);
+      border:1px solid rgba(0,0,0,0.10);
+      border-radius:999px;
+      padding:12px 16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      backdrop-filter: blur(8px);
+    }
+    .footer-left, .footer-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#333;
+      font-weight:800;
+    }
+    .footer-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:rgba(241,196,15,0.75);
+      box-shadow:0 0 0 4px rgba(241,196,15,0.18);
+      flex:0 0 auto;
+    }
+    .footer-copy{
+      font-size:13px;
+      color:#444;
+      font-weight:800;
+    }
+    .footer-icon{
+      width:30px;
+      height:30px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:rgba(108,92,231,0.10);
+      color:#3d2db6;
+      flex:0 0 auto;
+    }
+    .footer-tagline{
+      font-size:13px;
+      color:#444;
+      font-weight:900;
+      letter-spacing:0.2px;
+    }
+
+    /* 手機微調 */
+    @media (max-width: 560px){
+      .hero{ padding:12px 12px; }
+      .brand-title{ font-size:26px; }
+      .brand{ min-width:auto; }
+      .nav a{ padding:9px 12px; }
+      .nav a .ico{ width:26px; height:26px; border-radius:9px; }
+      .lb-name{ max-width:180px; }
+      .footer-pill{ border-radius:20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <div class="hero">
+      <div class="brand">
+        <div class="brand-badge" aria-label="Jessie Math Logo">
+          <img src="JESSIEMATH-Q.png" alt="Jessie Math" />
+        </div>
+        <div class="brand-title">Jessie Math</div>
+      </div>
+
+      <div class="nav">
+        <a href="https://jessiemath0703-chu.github.io/website2/" target="_blank" rel="noopener">
+          <span class="ico"><i class="fa-solid fa-house"></i></span>
+          首頁
+        </a>
+        <a href="https://jessiemath0703-chu.github.io/Game-Lobby/" target="_blank" rel="noopener">
+          <span class="ico"><i class="fa-solid fa-gamepad"></i></span>
+          遊戲大廳
+        </a>
+        <a class="active" href="https://jessiemath0703-chu.github.io/Game-Lobby/#g5-u10" target="_blank" rel="noopener">
+          <span class="ico"><i class="fa-solid fa-puzzle-piece"></i></span>
+          五年級扇形
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主內容 -->
+  <div class="page">
+    <div class="container">
+      <h2>🍕 披薩數學挑戰賽</h2>
+
+      <!-- 第一頁：強制輸入名字 + 遊戲說明 + 排行榜 -->
+      <div id="start-screen">
+        <div class="target-box">開始任務</div>
+
+        <div class="rulebox">
+          <div style="font-weight:900; margin-bottom:6px;">遊戲規則（計時／計分）</div>
+          <ul>
+            <li>每局 60 秒：時間歸零就自動結算。</li>
+            <li>你要做兩件事：<b>切出對的角度</b>＋<b>把答案填對</b>。</li>
+            <li>答對加分：越快越香（會有速度加成）。</li>
+            <li>答錯不扣分，但會直接告訴你正確答案，然後自動下一題。</li>
+            <li>題型混合出現：分數 ↔ 角度，隨機變化更多元。</li>
+          </ul>
+        </div>
+
+        <!-- 排行榜 -->
+        <div class="leaderboard">
+          <div class="leaderboard-title">
+            <div class="lb-ico" aria-hidden="true"><i class="fa-solid fa-trophy"></i></div>
+            <div>排行榜（本機前 10 名）</div>
+          </div>
+          <ul class="lb-list" id="lb-list"></ul>
+          <div class="lb-note">提示：排行榜會保存在同一台裝置／同一個瀏覽器中。</div>
+        </div>
+
+        <div class="startbar">
+          <input id="player-name" class="name-input" type="text" placeholder="請輸入名字（必填）" />
+          <button id="start-btn" disabled>進入工作站</button>
+        </div>
+
+        <div class="tiny">小提示：先把名字輸入好，不然任務不放行 ✨</div>
+      </div>
+
+      <!-- 第二頁：進入遊戲 -->
+      <div id="game-screen">
+        <div class="hud">
+          <div class="pill">玩家：<span id="player-label">—</span></div>
+          <div class="pill">時間：<span id="time-left">60</span>s</div>
+          <div class="pill">分數：<span id="score">0</span></div>
+        </div>
+
+        <div class="target-box" id="question">請根據提示切披薩</div>
+
+        <div class="game-canvas">
+          <div id="slice"></div>
+        </div>
+
+        <div class="controls">
+          <p style="margin:0 0 6px;">調整你的切片：<span id="current-val">0</span>°</p>
+          <input type="range" id="angle-slider" min="0" max="360" value="0" />
+
+          <div id="answer-zone">
+            <p id="prompt-text" style="margin:8px 0 10px;">請輸入答案</p>
+            <input type="text" id="user-answer" placeholder="例如：120 或 3/8" />
+            <button id="submit-btn" onclick="checkAnswer()">提交答案</button>
+          </div>
+
+          <div style="margin-top:10px;">
+            <button id="pause-btn" onclick="togglePause()">暫停</button>
+            <button id="restart-btn" onclick="restartGame()">重來</button>
+          </div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer（你指定的內容） -->
+  <footer>
+    <div class="footer-pill">
+      <div class="footer-left">
+        <div class="footer-dot" aria-hidden="true"></div>
+        <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+        <div class="footer-tagline">數學不迷路，Jessie 帶你走向理解。</div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  let targetAngle = 0;
+  let targetFractionText = "";
+  let expecting = "degree";
+  let currentInputAngle = 0;
+
+  let playerName = "";
+  let score = 0;
+  let timeLeft = 60;
+  let timerId = null;
+  let paused = false;
+  let questionStartTs = 0;
+
+  const slice = document.getElementById('slice');
+  const slider = document.getElementById('angle-slider');
+  const displayVal = document.getElementById('current-val');
+  const feedback = document.getElementById('feedback');
+  const question = document.getElementById('question');
+  const promptText = document.getElementById('prompt-text');
+  const userAnswer = document.getElementById('user-answer');
+
+  const startScreen = document.getElementById('start-screen');
+  const gameScreen  = document.getElementById('game-screen');
+  const nameInput = document.getElementById('player-name');
+  const startBtn = document.getElementById('start-btn');
+
+  const playerLabel = document.getElementById('player-label');
+  const scoreLabel = document.getElementById('score');
+  const timeLabel  = document.getElementById('time-left');
+  const pauseBtn   = document.getElementById('pause-btn');
+  const submitBtn  = document.getElementById('submit-btn');
+
+  // ====== 排行榜（本機 localStorage） ======
+  const LB_KEY = "jessie_pizza_math_leaderboard_v1";
+
+  function loadLeaderboard(){
+    try{
+      const raw = localStorage.getItem(LB_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveLeaderboard(arr){
+    localStorage.setItem(LB_KEY, JSON.stringify(arr));
+  }
+
+  function upsertLeaderboard(name, scoreVal){
+    const list = loadLeaderboard();
+
+    // 同名取最高分
+    const idx = list.findIndex(x => x && x.name === name);
+    if (idx >= 0){
+      list[idx].score = Math.max(list[idx].score, scoreVal);
+      list[idx].ts = Date.now();
+    } else {
+      list.push({ name, score: scoreVal, ts: Date.now() });
+    }
+
+    // 排序：分數高優先，分數同分看時間（較新靠前）
+    list.sort((a,b) => (b.score - a.score) || (b.ts - a.ts));
+
+    // 只留前 10
+    const top10 = list.slice(0, 10);
+    saveLeaderboard(top10);
+    renderLeaderboard();
+  }
+
+  function renderLeaderboard(){
+    const ul = document.getElementById("lb-list");
+    if (!ul) return;
+    const list = loadLeaderboard();
+
+    ul.innerHTML = "";
+    const show = list.length ? list : [
+      {name:"—", score:"—"},
+      {name:"—", score:"—"},
+      {name:"—", score:"—"}
+    ];
+
+    show.forEach((row, i) => {
+      const li = document.createElement("li");
+      li.className = "lb-item";
+      li.innerHTML = `
+        <div class="lb-left">
+          <div class="lb-rank">${i+1}</div>
+          <div class="lb-name">${escapeHtml(String(row.name ?? "—"))}</div>
+        </div>
+        <div class="lb-score">${escapeHtml(String(row.score ?? "—"))}</div>
+      `;
+      ul.appendChild(li);
+    });
+  }
+
+  function escapeHtml(str){
+    return str
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // 初始渲染排行榜
+  renderLeaderboard();
+
+  // ====== 第一頁：強制輸入名字 ======
+  nameInput.addEventListener('input', () => {
+    const v = nameInput.value.trim();
+    startBtn.disabled = (v.length === 0);
+  });
+
+  startBtn.addEventListener('click', () => {
+    playerName = nameInput.value.trim();
+    if (!playerName) return;
+
+    playerLabel.innerText = playerName;
+    startScreen.style.display = 'none';
+    gameScreen.style.display = 'block';
+
+    restartGame();
+  });
+
+  // ====== 角度視覺更新 ======
+  slider.addEventListener('input', (e) => {
+    if (paused) return;
+    currentInputAngle = parseInt(e.target.value, 10);
+    displayVal.innerText = currentInputAngle;
+    updateSlice(currentInputAngle);
+  });
+
+  function updateSlice(deg) {
+    slice.style.background = `conic-gradient(from 0deg, #f1c40f ${deg}deg, transparent ${deg}deg)`;
+  }
+
+  // ====== 出題：混合題型 + 更多元 ======
+  function nextQuestion() {
+    feedback.innerText = "";
+    userAnswer.value = "";
+    userAnswer.placeholder = "例如：120 或 3/8";
+
+    const denominators = [2,3,4,5,6,8,10,12,16];
+    const den = denominators[Math.floor(Math.random() * denominators.length)];
+
+    let num = Math.floor(Math.random() * (den - 1)) + 1;
+    if (num === den - 1 && Math.random() < 0.6) num = den - 2;
+
+    targetAngle = (360 / den) * num;
+
+    const g = gcd(num, den);
+    const sn = num / g;
+    const sd = den / g;
+    targetFractionText = `${sn}/${sd}`;
+
+    expecting = (Math.random() < 0.5) ? "degree" : "fraction";
+
+    if (expecting === "degree") {
+      question.innerText = `目標：請切出披薩的 ${targetFractionText}`;
+      promptText.innerText = `請問這等於幾度（°）？`;
+    } else {
+      question.innerText = `目標：請切出 ${targetAngle}° 的角度`;
+      promptText.innerText = `這相當於幾分之幾？（可輸入 ${targetFractionText} 這種格式）`;
+    }
+
+    questionStartTs = Date.now();
+  }
+
+  function gcd(a,b){
+    a = Math.abs(a); b = Math.abs(b);
+    while (b !== 0) { const t = a % b; a = b; b = t; }
+    return a || 1;
+  }
+
+  // ====== 計時／計分 ======
+  function startTimer(){
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      if (paused) return;
+      timeLeft -= 1;
+      timeLabel.innerText = timeLeft;
+
+      if (timeLeft <= 0) {
+        timeLeft = 0;
+        timeLabel.innerText = 0;
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame(){
+    clearInterval(timerId);
+    timerId = null;
+    paused = true;
+    pauseBtn.innerText = "暫停";
+    setDisabled(true);
+
+    // 結算寫入排行榜
+    if (playerName) upsertLeaderboard(playerName, score);
+
+    feedback.style.color = "#2c3e50";
+    feedback.innerText = `⏱️ 時間到！${playerName} 的最終分數是 ${score} 分。披薩給你，皇冠也給你 👑🍕`;
+  }
+
+  function setDisabled(disabled){
+    slider.disabled = disabled;
+    userAnswer.disabled = disabled;
+    submitBtn.disabled = disabled;
+  }
+
+  function togglePause(){
+    if (!timerId) return;
+    paused = !paused;
+
+    if (paused){
+      pauseBtn.innerText = "繼續";
+      setDisabled(true);
+      feedback.style.color = "#2c3e50";
+      feedback.innerText = "⏸️ 暫停中…別走，披薩還熱著。";
+    } else {
+      pauseBtn.innerText = "暫停";
+      setDisabled(false);
+      feedback.innerText = "";
+      userAnswer.focus();
+    }
+  }
+
+  function restartGame(){
+    clearInterval(timerId);
+    timerId = null;
+
+    score = 0;
+    timeLeft = 60;
+    paused = false;
+
+    scoreLabel.innerText = score;
+    timeLabel.innerText = timeLeft;
+    pauseBtn.innerText = "暫停";
+
+    slider.value = 0;
+    displayVal.innerText = "0";
+    updateSlice(0);
+
+    setDisabled(false);
+    nextQuestion();
+    startTimer();
+    userAnswer.focus();
+  }
+
+  // ====== 作答檢查（答對/答錯：都顯示回饋 + 正確答案，然後自動下一題） ======
+  function parseFractionText(t){
+    const s = (t || "").trim();
+    if (!s.includes('/')) return null;
+    const parts = s.split('/');
+    if (parts.length !== 2) return null;
+    const a = parseInt(parts[0].trim(), 10);
+    const b = parseInt(parts[1].trim(), 10);
+    if (!Number.isFinite(a) || !Number.isFinite(b) || b === 0) return null;
+    const g = gcd(a,b);
+    return { n: a/g, d: b/g, text: `${a/g}/${b/g}` };
+  }
+
+  function checkAnswer(){
+    if (paused) return;
+
+    const raw = userAnswer.value.trim();
+    const playerAngle = parseInt(slider.value, 10);
+
+    const isAngleCorrect = Math.abs(playerAngle - targetAngle) <= 5;
+
+    const spendSec = Math.max(0.2, (Date.now() - questionStartTs) / 1000);
+    const speedBonus = Math.max(0, Math.min(12, Math.floor(12 - spendSec)));
+
+    let isCorrect = false;
+    let correctText = "";
+
+    if (expecting === "degree") {
+      const val = Number(raw);
+      const isValOk = Number.isFinite(val) && Math.abs(val - targetAngle) < 0.0001;
+      isCorrect = isAngleCorrect && isValOk;
+      correctText = `正確答案：角度 ${targetAngle}°（分數 ${targetFractionText}）`;
+      if (isCorrect) addScore(10 + speedBonus);
+    } else {
+      const frac = parseFractionText(raw);
+      const okFraction = frac && (frac.text === targetFractionText);
+      isCorrect = isAngleCorrect && okFraction;
+      correctText = `正確答案：分數 ${targetFractionText}（角度 ${targetAngle}°）`;
+      if (isCorrect) addScore(12 + speedBonus);
+    }
+
+    if (isCorrect){
+      feedback.style.color = "green";
+      feedback.innerText = `✅ 答對啦！${correctText}`;
+    } else {
+      feedback.style.color = "red";
+      feedback.innerText = `❌ 答錯了～${correctText}`;
+    }
+
+    setDisabled(true);
+    setTimeout(() => {
+      if (!timerId) return;
+      if (paused) return;
+      setDisabled(false);
+      nextQuestion();
+      userAnswer.focus();
+    }, 900);
+  }
+
+  function addScore(pts){
+    score += pts;
+    scoreLabel.innerText = score;
+  }
+
+  userAnswer.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') checkAnswer();
+  });
+</script>
+
+</body>
+</html>
+
+
