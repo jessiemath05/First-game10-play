@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessie Math捷析 - 幾何核心綻放</title>
+    
+    <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:title" content="Jessie Math捷析 - 幾何核心綻放">
+    <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="g5-u10-2.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1536">
+    <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+    <link rel="image_src" href="g5-u10-2.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jessie Math捷析 - 幾何核心綻放">
+    <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta name="twitter:image" content="g5-u10-2.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0514;
+            --primary-purple: #9d00ff;
+            --neon-blue: #00f3ff;
+            --glass-bg: rgba(20, 10, 40, 0.6);
+            --glass-border: rgba(157, 0, 255, 0.3);
+            --header-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft JhengHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(157, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 243, 255, 0.1) 0%, transparent 40%),
+                url('jessie-logo-play.jpg');
+            background-position: left top;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header / Hero Area --- */
+        header {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #e88b22;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .logo-circle img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .brand-text {
+            color: #1c355e;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        .nav-btn.home, .nav-btn.lobby {
+            color: #2b74e2;
+            border: 1px solid #2b74e2;
+        }
+        .nav-btn.home:hover, .nav-btn.lobby:hover {
+            background-color: #f0f6ff;
+        }
+
+        .nav-btn.g5 {
+            color: #7b42f6;
+            border: 1px solid #7b42f6;
+            background-color: #f8f5ff;
+        }
+        .nav-btn.g5:hover {
+            background-color: #ebdfff;
+        }
+
+        /* --- Main Container & Glassmorphism --- */
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(157, 0, 255, 0.2);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin: auto;
+        }
+
+        /* --- Start Screen --- */
+        h1 {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        .rules {
+            text-align: left;
+            margin: 20px auto;
+            line-height: 1.6;
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-purple);
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--neon-blue);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary-purple), #5d00ff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(157, 0, 255, 0.8);
+        }
+
+        /* --- Leaderboard --- */
+        .leaderboard-container {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: var(--neon-blue); }
+        .rank-icon { font-size: 1.2em; }
+
+        /* --- Game Screen --- */
+        #game-screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        input {
+            user-select: auto;
+            -webkit-user-select: auto;
+        }
+
+        .bottom-controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 46; 
+        }
+
+        .bottom-controls button {
+            padding: 8px 15px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            box-shadow: none;
+        }
+        .bottom-controls button:hover { background: rgba(0, 243, 255, 0.2); }
+
+        .game-status {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #e0b0ff;
+        }
+
+        /* 核心包裝器，用於固定對齊量角器 */
+        .core-wrapper {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .core-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 4px dashed rgba(157, 0, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(157, 0, 255, 0.2);
+            transition: transform 0.5s ease;
+        }
+
+        .core-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: conic-gradient(transparent 0deg, transparent 360deg);
+            position: absolute;
+        }
+
+        .core-center {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, var(--neon-blue), transparent);
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* 新增特效：答對軌跡線 */
+        .trajectory-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .trajectory-line {
+            position: absolute;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(to top, var(--neon-blue), transparent);
+            border-radius: 2px;
+            top: 50%; left: 50%;
+            transform-origin: 50% 100%;
+            animation: shootIn 0.8s ease-out forwards;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        @keyframes shootIn {
+            0% { transform: translate(-50%, -50%) rotate(var(--rot)) translateY(-180px) scaleY(1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(var(--rot)) translateY(0px) scaleY(0.2); opacity: 0; }
+        }
+
+        /* 新增特效：答錯爆炸 */
+        @keyframes explodeCore {
+            0% { transform: scale(1); filter: brightness(1); }
+            20% { transform: scale(1.2); filter: brightness(2) drop-shadow(0 0 40px red); border-color: red; }
+            40% { transform: scale(0.9) translateX(-10px); }
+            60% { transform: scale(1.1) translateX(10px); }
+            80% { transform: scale(0.95) translateX(-5px); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        .explode-anim {
+            animation: explodeCore 0.6s ease-out;
+        }
+
+        .question-area {
+            margin-top: 30px;
+            min-height: 100px;
+        }
+
+        .fragments-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .fragment-btn {
+            background: rgba(157, 0, 255, 0.2);
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .fragment-btn:hover { background: rgba(157, 0, 255, 0.5); }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--primary-purple);
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .slider-controls button {
+            padding: 8px 15px;
+            min-width: 45px;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        /* --- 白板樣式 --- */
+        #whiteboard-wrapper {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 45; 
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        #whiteboard {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+        .wb-inner-controls {
+            position: absolute;
+            top: 60px; right: 15px;
+            z-index: 46;
+        }
+        .wb-inner-controls button {
+            background: rgba(157, 0, 255, 0.8);
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        /* --- 量角器樣式 --- */
+        #protractor-wrapper {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            z-index: 60;
+            user-select: none;
+            touch-action: none;
+        }
+        /* 修改為 fixed 狀態，不可拖拉 */
+        #protractor-img {
+            width: 350px;
+            height: 350px;
+            opacity: 0.85;
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.5));
+        }
+        #rotate-handle {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            background: rgba(157, 0, 255, 0.9);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            cursor: ew-resize;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Overlay (暫停與過關) */
+        #pause-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 5, 20, 0.98); 
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 15px;
+        }
+
+        .sound-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            box-shadow: none;
+            font-size: 24px;
+            color: var(--neon-blue);
+            padding: 0;
+            z-index: 46;
+        }
+        .sound-btn:hover { transform: scale(1.1); box-shadow: none; }
+
+        #end-screen {
+            display: none;
+        }
+        .badge {
+            width: 150px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px gold;
+            margin: 20px auto;
+        }
+        
+        .end-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* --- 子彈型 Footer --- */
+        footer {
+            margin: 30px auto 20px auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+            width: 100%;
+        }
+        .footer-pill {
+            background: rgba(20, 10, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+        .footer-copy, .footer-tagline {
+            font-size: 13px;
+            color: #ccc;
+        }
+        .footer-icon {
+            color: var(--primary-purple);
+            font-size: 16px;
+        }
+        @media (max-width: 600px) {
+            .footer-pill {
+                flex-direction: column;
+                border-radius: 20px;
+                text-align: center;
+                justify-content: center;
+            }
+            .footer-left, .footer-right {
+                justify-content: center;
+            }
+        }
+
+        /* --- RWD 手機強制橫向提示 --- */
+        #rotate-device-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-color);
+            z-index: 9999;
+            color: var(--neon-blue);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 1.5em;
+        }
+        #rotate-device-overlay i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: rotatePhone 1.5s infinite ease-in-out alternate;
+            color: var(--primary-purple);
+        }
+        @keyframes rotatePhone {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(90deg); }
+        }
+        /* 當螢幕寬度小於 767px (通常為手機) 且為直向時，啟動提示畫面並隱藏遊戲介面 */
+        @media screen and (max-width: 767px) and (orientation: portrait) {
+            #rotate-device-overlay {
+                display: flex;
+            }
+            body > header, body > .container, body > footer {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 手機直向提示畫面 -->
+    <div id="rotate-device-overlay">
+        <div class="rotate-content">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <p>請將手機旋轉至橫向<br>以獲得最佳遊戲體驗</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="brand-container">
+            <div class="logo-circle">
+                <img src="JESSIEMATH-Q.png" alt="Jessie" onerror="this.style.display='none'">
+            </div>
+            <div class="brand-text">Jessie Math捷析</div>
+        </div>
+        <div class="nav-buttons">
+            <a href="https://jessiemath0703-chu.github.io/website2/" class="nav-btn home"><i class="fa-solid fa-house"></i> 首頁</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/" class="nav-btn lobby"><i class="fa-solid fa-gamepad"></i> 遊戲大廳</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/#g5-u10" class="nav-btn g5"><i class="fa-solid fa-rotate-left"></i> G5扇形</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="start-screen" class="glass-panel">
+            <h1>幾何核心綻放</h1>
+            <input type="text" id="player-name" placeholder="請輸入玩家姓名" autocomplete="off">
+            <div class="rules">
+                <strong>任務簡報：</strong><br>
+                宇宙核心能量流失，請運用五年級「扇形與圓心角」知識修復它！<br>
+                遊戲將隨機出現三種裂隙：<br>
+                1. <strong>基礎甦醒：</strong>微調光標找出指定比例的精確角度。<br>
+                2. <strong>星環碎裂：</strong>選擇正確角度的碎片填補缺口。<br>
+                3. <strong>核心過載(Boss)：</strong>計算剩餘裂隙角度，合成能量發射！<br>
+                <br>
+                * <strong>時間限制 120 秒，無盡題庫。</strong>答對 6 題(含)以上即可通關獲得專屬徽章！
+            </div>
+            <button onclick="startGame()"><i class="fa-solid fa-play"></i> 啟動核心</button>
+
+            <div class="leaderboard-container">
+                <h3 style="color:var(--neon-blue);">🏆 頂尖修復者排行榜</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>名次</th><th>玩家</th><th>答對題數</th><th>狀態</th><th>時間紀錄</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="game-screen" class="glass-panel">
+            
+            <div class="game-status">
+                <span>第 <span id="q-count">1</span> 題 | 答對: <span id="score-display">0</span></span>
+                <span>時間: <span id="time-left">120</span>s</span>
+            </div>
+
+            <div id="instruction-area" style="text-align: center; margin-bottom: 20px; font-size: 1.1em; font-weight: bold; min-height: 25px;"></div>
+
+            <!-- 用 core-wrapper 將核心和量角器包在一起定位 -->
+            <div class="core-wrapper">
+                <div class="core-container" id="core-anim">
+                    <div class="core-circle" id="core-visual"></div>
+                    <div class="core-center"></div>
+                </div>
+
+                <div id="protractor-wrapper">
+                    <canvas id="protractor-img" width="400" height="400"></canvas>
+                    <div id="rotate-handle"><i class="fa-solid fa-rotate-right"></i></div>
+                </div>
+            </div>
+
+            <div class="question-area" id="question-area">
+            </div>
+
+            <div class="bottom-controls">
+                <button onclick="togglePause()"><i class="fa-solid fa-pause"></i> 暫停</button>
+                <button onclick="restartGame()"><i class="fa-solid fa-rotate-right"></i> 重來</button>
+                <button onclick="backToMenu()"><i class="fa-solid fa-right-from-bracket"></i> 回主選單</button>
+                <button id="wb-toggle-btn" onclick="toggleWhiteboard()"><i class="fa-solid fa-pen"></i> 白板</button>
+                <button id="prot-toggle-btn" onclick="toggleProtractor()"><i class="fa-solid fa-ruler"></i> 量角器</button>
+            </div>
+
+            <div id="whiteboard-wrapper">
+                <div class="wb-inner-controls">
+                    <button onclick="clearWhiteboard()"><i class="fa-solid fa-eraser"></i> 清空</button>
+                </div>
+                <canvas id="whiteboard"></canvas>
+            </div>
+
+            <div id="pause-overlay">
+                <h2 style="color:white; margin-bottom:20px;">系統暫停中</h2>
+                <button onclick="togglePause()"><i class="fa-solid fa-play"></i> 繼續修復</button>
+            </div>
+
+            <button class="sound-btn" onclick="toggleSound()">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+        </div>
+
+        <div id="end-screen" class="glass-panel">
+            <h1 id="end-title">任務完成</h1>
+            <p id="end-msg" style="font-size: 18px; margin-bottom: 10px;"></p>
+            <p id="encouragement-msg" style="font-size: 16px; color: #ffcc00; margin-bottom: 20px; display: none;"></p>
+            
+            <div id="badge-container" style="display:none;">
+                <img src="badge10.jpg" alt="過關徽章" class="badge" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=\'width:100px;height:100px;background:gold;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;color:black;font-weight:bold;box-shadow:0 0 20px gold;\'>徽章解鎖</div>');">
+            </div>
+            
+            <div class="end-btn-group">
+                <button onclick="backToMenu()"><i class="fa-solid fa-house"></i> 回主選單</button>
+                <button onclick="startGame()"><i class="fa-solid fa-rotate-right"></i> 再挑戰一次</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-pill">
+            <div class="footer-left">
+                <div class="footer-dot" aria-hidden="true"></div>
+                <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+                <div class="footer-tagline">數學不迷路，捷析Jessie帶你走向理解。</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Game State Variables ---
+        let playerName = "";
+        let currentQ = 0;
+        let score = 0;
+        let timeLeft = 120;
+        let timerInterval;
+        let isPaused = false;
+        let soundEnabled = true;
+        let currentAnswer = null;
+
+        // --- Shuffle Bag for Themes ---
+        let qBag = [];
+
+        // --- Whiteboard Variables ---
+        let wbActive = false;
+        let isDrawing = false;
+        let wbCanvas = null;
+        let wbCtx = null;
+
+        // --- Audio System ---
+        let bgmAudio = new Audio('1.mp3');
+        bgmAudio.loop = true;
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if(!soundEnabled) return;
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.1); 
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        // 監聽 Enter 鍵輸入
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('start-screen').style.display !== 'none' && document.activeElement.id === 'player-name') {
+                    startGame();
+                }
+                if (document.getElementById('game-screen').style.display !== 'none' && !isPaused) {
+                    if (document.getElementById('boss-input')) {
+                        checkAnswer3();
+                    } else if (document.getElementById('angle-slider')) {
+                        checkAnswer1();
+                    }
+                }
+            }
+        });
+
+        function getGCD(a, b) {
+            return b === 0 ? a : getGCD(b, a % b);
+        }
+
+        function initLeaderboard() {
+            let lb = JSON.parse(localStorage.getItem('g5_bloom_leaderboard')) || [];
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '';
+            
+            if (lb.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">尚無資料，成為第一位修復者吧！</td></tr>';
+                return;
+            }
+
+            lb.sort((a, b) => b.score - a.score || b.timeLeft - a.timeLeft);
+            lb = lb.slice(0, 10);
+
+            lb.forEach((entry, index) => {
+                let rankIcon = '';
+                if (index === 0) rankIcon = '🥇';
+                else if (index === 1) rankIcon = '🥈';
+                else if (index === 2) rankIcon = '🥉';
+                else rankIcon = `🛡️ <span style="font-size:12px">${index+1}</span>`;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="rank-icon">${rankIcon}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.score} 題</td>
+                    <td>${entry.status}</td>
+                    <td>${entry.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveScore(status) {
+            let lb = JSON.parse(localStorage.getItem('g5_bloom_leaderboard')) || [];
+            const now = new Date();
+            const dateStr = `${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+            lb.push({
+                name: playerName,
+                score: score,
+                status: status,
+                timeLeft: timeLeft,
+                date: dateStr
+            });
+            localStorage.setItem('g5_bloom_leaderboard', JSON.stringify(lb));
+        }
+
+        function startGame() {
+            const nameInput = document.getElementById('player-name').value.trim();
+            if(!nameInput) { alert('請輸入指揮官姓名！'); return; }
+            playerName = nameInput;
+            
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('end-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'flex';
+            
+            currentQ = 0; score = 0; timeLeft = 120;
+            isPaused = false;
+            qBag = []; // 重置洗牌題庫
+
+            document.getElementById('pause-overlay').style.display = 'none';
+            document.getElementById('score-display').innerText = score;
+            
+            if(wbActive) toggleWhiteboard();
+            if(document.getElementById('protractor-wrapper').style.display === 'block') toggleProtractor();
+
+            // 啟動 BGM
+            if(soundEnabled) {
+                bgmAudio.play().catch(e => console.log('BGM Play Error:', e));
+            }
+
+            startTimer();
+            loadNextQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('time-left').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                if(!isPaused) {
+                    timeLeft--;
+                    document.getElementById('time-left').innerText = timeLeft;
+                    if(timeLeft <= 0) {
+                        endGame();
+                    }
+                }
+            }, 1000);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            document.getElementById('pause-overlay').style.display = isPaused ? 'flex' : 'none';
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('sound-icon').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+            if(soundEnabled) {
+                bgmAudio.play().catch(e => console.log('BGM Play Error:', e));
+            } else {
+                bgmAudio.pause();
+            }
+        }
+
+        function restartGame() {
+            if(confirm('確定要放棄當前進度並重新開始嗎？')) startGame();
+        }
+
+        function backToMenu() {
+            clearInterval(timerInterval);
+            bgmAudio.pause();
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('end-screen').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'block';
+            initLeaderboard();
+        }
+
+        function updateCoreVisual(filledColor, deg, isGap = false) {
+            const core = document.getElementById('core-visual');
+            if (isGap) {
+                core.style.background = `conic-gradient(rgba(255,255,255,0.25) 0deg, rgba(255,255,255,0.25) ${360-deg}deg, transparent ${360-deg}deg, transparent 360deg)`;
+            } else {
+                core.style.background = `conic-gradient(${filledColor} 0deg, ${filledColor} ${deg}deg, transparent ${deg}deg, transparent 360deg)`;
+            }
+        }
+
+        function initWhiteboard() {
+            wbCanvas = document.getElementById('whiteboard');
+            wbCtx = wbCanvas.getContext('2d');
+            
+            const resize = () => {
+                if(wbCanvas.parentElement) {
+                    wbCanvas.width = wbCanvas.parentElement.clientWidth;
+                    wbCanvas.height = wbCanvas.parentElement.clientHeight;
+                    wbCtx.strokeStyle = '#00f3ff';
+                    wbCtx.lineWidth = 3;
+                    wbCtx.lineCap = 'round';
+                    wbCtx.lineJoin = 'round';
+                }
+            };
+            window.addEventListener('resize', resize);
+            resize();
+
+            const startDraw = (e) => {
+                isDrawing = true;
+                draw(e);
+            };
+            const stopDraw = () => {
+                isDrawing = false;
+                wbCtx.beginPath();
+            };
+            const draw = (e) => {
+                if(!isDrawing) return;
+                e.preventDefault(); 
+                const rect = wbCanvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                
+                wbCtx.lineTo(x, y);
+                wbCtx.stroke();
+                wbCtx.beginPath();
+                wbCtx.moveTo(x, y);
+            };
+
+            wbCanvas.addEventListener('mousedown', startDraw);
+            wbCanvas.addEventListener('mousemove', draw);
+            wbCanvas.addEventListener('mouseup', stopDraw);
+            wbCanvas.addEventListener('mouseout', stopDraw);
+
+            wbCanvas.addEventListener('touchstart', startDraw, {passive:false});
+            wbCanvas.addEventListener('touchmove', draw, {passive:false});
+            wbCanvas.addEventListener('touchend', stopDraw);
+        }
+
+        function toggleWhiteboard() {
+            wbActive = !wbActive;
+            const wrapper = document.getElementById('whiteboard-wrapper');
+            const btn = document.getElementById('wb-toggle-btn');
+            if(wbActive) {
+                wrapper.style.display = 'block';
+                btn.style.background = 'rgba(0, 243, 255, 0.4)';
+                if(!wbCanvas) initWhiteboard();
+            } else {
+                wrapper.style.display = 'none';
+                btn.style.background = 'rgba(255,255,255,0.1)';
+            }
+        }
+
+        function clearWhiteboard() {
+            if(wbCtx && wbCanvas) {
+                wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+            }
+        }
+
+        // --- 動態繪製與實作量角器功能 ---
+        function drawProtractor() {
+            const cvs = document.getElementById('protractor-img');
+            if(!cvs || !cvs.getContext) return;
+            const ctx = cvs.getContext('2d');
+            const width = 400;
+            const height = 400;
+            const cx = width / 2;
+            const cy = height / 2;
+            const rOuter = 180;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. 繪製半透明漸層底色
+            ctx.beginPath();
+            ctx.arc(cx, cy, rOuter, Math.PI, 0);
+            ctx.lineTo(cx + rOuter, cy);
+            
+            let grad = ctx.createRadialGradient(cx, cy, 30, cx, cy, rOuter);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+            grad.addColorStop(1, 'rgba(230, 220, 250, 0.85)'); 
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // 2. 繪製外框線與底線
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#222';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(cx - rOuter, cy);
+            ctx.lineTo(cx + rOuter, cy);
+            ctx.stroke();
+
+            // 3. 繪製中心對準記號
+            ctx.beginPath();
+            ctx.arc(cx, cy, 25, Math.PI, 0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx, cy - 25);
+            ctx.stroke();
+
+            // 4. 繪製刻度與雙向數字
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            for(let i = 0; i <= 180; i++) {
+                let rad = Math.PI - (i * Math.PI / 180);
+                let is10 = (i % 10 === 0);
+                let is5 = (i % 5 === 0);
+                
+                let lineLength = is10 ? 18 : (is5 ? 10 : 6);
+                let startX = cx + Math.cos(rad) * rOuter;
+                let startY = cy - Math.sin(rad) * rOuter;
+                let endX = cx + Math.cos(rad) * (rOuter - lineLength);
+                let endY = cy - Math.sin(rad) * (rOuter - lineLength);
+                
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.lineWidth = is10 ? 2 : 1;
+                ctx.strokeStyle = "#111";
+                ctx.stroke();
+
+                if (is10) {
+                    let outerNum = i; 
+                    let innerNum = 180 - i;
+
+                    // 繪製黑色外圈數字
+                    ctx.save();
+                    ctx.translate(cx + Math.cos(rad) * (rOuter - 30), cy - Math.sin(rad) * (rOuter - 30));
+                    ctx.rotate(Math.PI/2 - rad);
+                    ctx.fillStyle = "black";
+                    ctx.font = "bold 13px Arial";
+                    ctx.fillText(outerNum, 0, 0);
+                    ctx.restore();
+
+                    // 繪製紅色內圈數字
+                    ctx.save();
+                    ctx.translate(cx + Math.cos(rad) * (rOuter - 50), cy - Math.sin(rad) * (rOuter - 50));
+                    ctx.rotate(Math.PI/2 - rad);
+                    ctx.fillStyle = "#d32f2f";
+                    ctx.font = "bold 12px Arial";
+                    ctx.fillText(innerNum, 0, 0);
+                    ctx.restore();
+                }
+            }
+        }
+
+        let protWrapper = null;
+        let isRotatingProt = false;
+        let currentRot = 0;
+        let pCenterX, pCenterY;
+
+        function initProtractor() {
+            protWrapper = document.getElementById('protractor-wrapper');
+            const pHandle = document.getElementById('rotate-handle');
+
+            pHandle.addEventListener('mousedown', pStartRotate);
+            pHandle.addEventListener('touchstart', pStartRotate, {passive: false});
+
+            document.addEventListener('mousemove', pRotate);
+            document.addEventListener('touchmove', pRotate, {passive: false});
+
+            document.addEventListener('mouseup', pEndAll);
+            document.addEventListener('touchend', pEndAll);
+        }
+
+        function toggleProtractor() {
+            let pc = document.getElementById('protractor-wrapper');
+            let btn = document.getElementById('prot-toggle-btn');
+            if (pc.style.display === 'none' || pc.style.display === '') {
+                pc.style.display = 'block';
+                pc.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                currentRot = 0;
+                btn.style.background = 'rgba(0, 243, 255, 0.4)';
+            } else {
+                pc.style.display = 'none';
+                btn.style.background = 'rgba(255,255,255,0.1)';
+            }
+        }
+
+        function pStartRotate(e) {
+            isRotatingProt = true;
+            e.preventDefault();
+            e.stopPropagation();
+            let rect = protWrapper.getBoundingClientRect();
+            pCenterX = rect.left + rect.width / 2;
+            pCenterY = rect.top + rect.height / 2;
+        }
+
+        function pRotate(e) {
+            if(!isRotatingProt) return;
+            e.preventDefault();
+            let clientX = e.clientX || e.touches[0].clientX;
+            let clientY = e.clientY || e.touches[0].clientY;
+            let dx = clientX - pCenterX;
+            let dy = clientY - pCenterY;
+            let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            currentRot = angle - 90; 
+            protWrapper.style.transform = `translate(-50%, -50%) rotate(${currentRot}deg)`;
+        }
+
+        function pEndAll() {
+            isRotatingProt = false;
+        }
+
+        function getNextQuestionType() {
+            if (qBag.length === 0) {
+                qBag = [1, 2, 3];
+                // Shuffle array
+                qBag.sort(() => Math.random() - 0.5);
+            }
+            return qBag.pop();
+        }
+
+        function loadNextQuestion() {
+            clearWhiteboard();
+            document.getElementById('instruction-area').innerHTML = '';
+
+            currentQ++;
+            document.getElementById('q-count').innerText = currentQ;
+            document.getElementById('score-display').innerText = score;
+            const qArea = document.getElementById('question-area');
+            qArea.innerHTML = '';
+            
+            const type = getNextQuestionType();
+            const coreAnim = document.getElementById('core-anim');
+            coreAnim.style.transform = 'rotate(0deg)';
+            coreAnim.style.animation = "none"; 
+
+            if (type === 1) renderLevel1(qArea);
+            else if (type === 2) renderLevel2(qArea, coreAnim);
+            else renderLevel3(qArea, coreAnim);
+        }
+
+        function renderLevel1(container) {
+            let angle;
+            if (Math.random() < 0.8) {
+                const niceDenominators = [2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20];
+                let den = niceDenominators[Math.floor(Math.random() * niceDenominators.length)];
+                let num = Math.floor(Math.random() * (den - 1)) + 1;
+                angle = (num * 360) / den;
+            } else {
+                angle = Math.floor(Math.random() * 359) + 1; 
+            }
+
+            let divisor = getGCD(angle, 360);
+            let num = angle / divisor;
+            let den = 360 / divisor;
+            let fractionStr = num + '/' + den;
+            
+            currentAnswer = angle;
+            updateCoreVisual('rgba(157, 0, 255, 0.8)', 0);
+            
+            document.getElementById('instruction-area').innerHTML = `<span style="color:#00f3ff;">請注入 <b>${fractionStr}</b> 圓的能量 (設定精確角度)</span>`;
+
+            container.innerHTML = `
+                <p id="slider-val" style="margin-top:15px; font-size: 1.2em; font-weight: bold;">目前角度: 0°</p>
+                <div class="slider-controls">
+                    <button onclick="adjustSlider(-1)">-</button>
+                    <input type="range" id="angle-slider" min="0" max="360" value="0" step="1">
+                    <button onclick="adjustSlider(1)">+</button>
+                </div>
+                <button onclick="checkAnswer1()" style="margin-top:20px; width: 200px;">注入能量</button>
+            `;
+
+            const slider = document.getElementById('angle-slider');
+            slider.oninput = function() {
+                document.getElementById('slider-val').innerText = `目前角度: ${this.value}°`;
+                updateCoreVisual('rgba(157, 0, 255, 0.8)', this.value);
+            };
+            
+            setTimeout(() => {
+                if(slider) slider.focus();
+            }, 50);
+        }
+
+        window.adjustSlider = function(delta) {
+            const slider = document.getElementById('angle-slider');
+            if(!slider) return;
+            let newVal = parseInt(slider.value) + delta;
+            if(newVal < 0) newVal = 0;
+            if(newVal > 360) newVal = 360;
+            slider.value = newVal;
+            document.getElementById('slider-val').innerText = `目前角度: ${newVal}°`;
+            updateCoreVisual('rgba(157, 0, 255, 0.8)', newVal);
+        }
+
+        window.checkAnswer1 = function() {
+            const userVal = parseInt(document.getElementById('angle-slider').value);
+            if(userVal === currentAnswer) handleCorrect();
+            else handleWrong();
+        }
+
+        function renderLevel2(container, coreAnim) {
+            currentAnswer = Math.floor(Math.random() * 341) + 10; 
+            
+            let opts = [currentAnswer];
+            let attempts = 0;
+            while(opts.length < 4 && attempts < 200) {
+                let r = Math.floor(Math.random() * 350) + 5;
+                if(opts.every(o => Math.abs(o - r) >= 20)) {
+                    opts.push(r);
+                }
+                attempts++;
+            }
+            opts.sort(() => Math.random() - 0.5);
+            
+            coreAnim.style.animation = "spin 15s linear infinite";
+            if(!document.getElementById('spin-style')) {
+                const style = document.createElement('style');
+                style.id = 'spin-style';
+                style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+                document.head.appendChild(style);
+            }
+
+            updateCoreVisual('rgba(157, 0, 255, 0.8)', 360 - currentAnswer, true);
+
+            document.getElementById('instruction-area').innerHTML = `<span style="color:#00f3ff;">核心出現缺口，請選擇精確度數的碎片填補！</span>`;
+
+            let html = `<div class="fragments-container">`;
+            opts.forEach(deg => {
+                html += `<div class="fragment-btn" onclick="checkAnswer2(${deg})">${deg}° 碎片</div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        window.checkAnswer2 = function(selectedDeg) {
+            document.getElementById('core-anim').style.animation = "none";
+            if(selectedDeg === currentAnswer) {
+                updateCoreVisual('rgba(157, 0, 255, 0.8)', 360);
+                handleCorrect();
+            } else {
+                handleWrong();
+            }
+        }
+
+        function renderLevel3(container, coreAnim) {
+            coreAnim.style.animation = "spinBoss 4s linear infinite";
+            if(!document.getElementById('spinboss-style')) {
+                const style = document.createElement('style');
+                style.id = 'spinboss-style';
+                style.innerHTML = `@keyframes spinBoss { 100% { transform: rotate(-360deg); } }`;
+                document.head.appendChild(style);
+            }
+
+            let totalPieces = Math.floor(Math.random() * 3) + 2; 
+            let pieces = [];
+            let remaining = 360;
+            
+            for(let i=0; i<totalPieces-1; i++){
+                let maxPiece = remaining - (totalPieces - 1 - i) * 30; 
+                let minPiece = 30;
+                let p = Math.floor(Math.random() * (maxPiece - minPiece + 1)) + minPiece;
+                pieces.push(p);
+                remaining -= p;
+            }
+            pieces.push(remaining);
+
+            let answerIndex = Math.floor(Math.random() * pieces.length);
+            currentAnswer = pieces.splice(answerIndex, 1)[0];
+            let parts = pieces; 
+
+            let gradientStops = [];
+            let currentDeg = 0;
+            const colors = ['rgba(255, 0, 50, 0.8)', 'rgba(255, 100, 0, 0.8)', 'rgba(255, 200, 0, 0.8)', 'rgba(255, 0, 255, 0.8)'];
+            
+            for(let i=0; i<parts.length; i++){
+                gradientStops.push(`${colors[i]} ${currentDeg}deg`);
+                currentDeg += parts[i];
+                gradientStops.push(`${colors[i]} ${currentDeg}deg`);
+            }
+            gradientStops.push(`transparent ${currentDeg}deg`);
+            gradientStops.push(`transparent 360deg`);
+
+            const core = document.getElementById('core-visual');
+            core.style.background = `conic-gradient(${gradientStops.join(', ')})`;
+
+            let partsText = parts.map(p => `<b>${p}°</b>`).join('、');
+            
+            document.getElementById('instruction-area').innerHTML = `
+                <div style="font-size: 0.9em; font-weight: normal; color: white; margin-bottom: 5px;">核心因異常晶體發生偏轉，已知晶體：${partsText}。</div>
+                <div style="color:#00f3ff;">請計算裂隙剩餘的圓心角度，輸入正確數值發射能量塊！</div>
+            `;
+
+            container.innerHTML = `
+                <div>
+                    <input type="number" id="boss-input" placeholder="輸入角度" style="width:120px; margin-right:10px;">
+                    <button onclick="checkAnswer3()" style="background:linear-gradient(45deg, #ff0055, #9d00ff);">精準發射 🚀</button>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                const input = document.getElementById('boss-input');
+                if(input) input.focus();
+            }, 50);
+        }
+
+        window.checkAnswer3 = function() {
+            const input = document.getElementById('boss-input');
+            if(!input.value) return;
+            const userAns = parseInt(input.value);
+            document.getElementById('core-anim').style.animation = "none";
+            if(userAns === currentAnswer) {
+                updateCoreVisual('rgba(157, 0, 255, 0.9)', 360);
+                handleCorrect();
+            } else {
+                handleWrong();
+            }
+        }
+
+        function createTrajectoryEffect() {
+            const tc = document.createElement('div');
+            tc.className = 'trajectory-container';
+            for(let i=0; i<8; i++) {
+                const line = document.createElement('div');
+                line.className = 'trajectory-line';
+                line.style.setProperty('--rot', (i * 45) + 'deg');
+                tc.appendChild(line);
+            }
+            document.querySelector('.core-wrapper').appendChild(tc);
+            setTimeout(() => tc.remove(), 1000);
+        }
+
+        function createExplosionEffect() {
+            const coreCont = document.getElementById('core-anim');
+            coreCont.classList.add('explode-anim');
+            setTimeout(() => coreCont.classList.remove('explode-anim'), 600);
+        }
+
+        function handleCorrect() {
+            playSound('correct');
+            createTrajectoryEffect();
+            score++;
+            document.getElementById('score-display').innerText = score;
+            const qArea = document.getElementById('question-area');
+            qArea.innerHTML = `<h2 style="color:#00ff88; margin-top:30px; text-shadow: 0 0 10px #00ff88;">✅ 能量同步成功！</h2>`;
+            setTimeout(loadNextQuestion, 1200);
+        }
+
+        function handleWrong() {
+            playSound('wrong');
+            createExplosionEffect();
+            const qArea = document.getElementById('question-area');
+            qArea.innerHTML = `<h2 style="color:#ff3366; margin-top:30px; text-shadow: 0 0 10px #ff3366;">❌ 頻率不符，正確度數為 ${currentAnswer}°</h2>`;
+            setTimeout(loadNextQuestion, 1500);
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            bgmAudio.pause();
+            document.getElementById('game-screen').style.display = 'none';
+            const endScreen = document.getElementById('end-screen');
+            endScreen.style.display = 'block';
+            
+            const badgeContainer = document.getElementById('badge-container');
+            const encMsg = document.getElementById('encouragement-msg');
+            const endTitle = document.getElementById('end-title');
+            
+            let statusStr = "";
+            
+            if (score >= 6) {
+                endTitle.innerText = "闖關成功！";
+                endTitle.style.color = "#00ff88";
+                statusStr = "過關";
+                badgeContainer.style.display = 'block';
+                encMsg.style.display = 'none';
+            } else {
+                endTitle.innerText = "時間耗盡";
+                endTitle.style.color = "#ff3366";
+                statusStr = "失敗";
+                badgeContainer.style.display = 'none';
+                encMsg.style.display = 'block';
+                
+                const quotes = [
+                    "不要氣餒，下次一定能行！",
+                    "失敗為成功之母，再接再厲！",
+                    "只差一點點了，指揮官，重整旗鼓吧！",
+                    "幾何的核心還在等待你的喚醒！",
+                    "深呼吸，調整頻率，再次挑戰吧！"
+                ];
+                encMsg.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+
+            document.getElementById('end-msg').innerText = `指揮官 ${playerName}，您的最終成績為：答對 ${score} 題。`;
+            saveScore(statusStr);
+        }
+
+        // Initialize elements on load
+        window.onload = function() {
+            initLeaderboard();
+            drawProtractor(); // 動態繪製量角器 Canvas
+            initProtractor();
+        };
+    </script>
+</body>
+</html>
